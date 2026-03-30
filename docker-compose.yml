@@ -1,0 +1,67 @@
+services:
+  postgres:
+    image: postgres:18.1-alpine
+    container_name: gutenberg-postgres-c
+    environment:
+      POSTGRES_DB: gutenberg-dev
+      POSTGRES_USER: gutenberguser
+      POSTGRES_PASSWORD: gutenbergpassword
+    ports:
+      - "5432:5432" # Accès local à la BDD
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - dev-net
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "gutenberguser", "-d", "gutenberg-dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gutenberg-springboot-c
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    volumes:
+      - .:/app
+      - ~/.m2:/root/.m2
+    networks:
+      - dev-net
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    depends_on:
+      - postgres
+    command: >
+      mvn spring-boot:run
+      -Dspring-boot.run.fork=false
+      -Dspring-boot.run.jvmArguments="
+      -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: gutenberg-pgadmin-c
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@dev.fr
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"  # Interface web : http://localhost:5050
+    depends_on:
+      - postgres
+    networks:
+      - dev-net
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  pgdata:
+  pgadmin_data:
+      
+networks:
+  dev-net:
+    driver: bridge
