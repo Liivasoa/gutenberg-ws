@@ -15,11 +15,16 @@ public final class PageRequestBuilder {
 
     public static PageRequest build(int page, int size, String sortBy, String sortDir,
             Set<String> allowedSortFields) {
+        return build(page, size, sortBy, sortDir, allowedSortFields, MAX_PAGE_SIZE);
+    }
+
+    public static PageRequest build(int page, int size, String sortBy, String sortDir,
+            Set<String> allowedSortFields, int maxPageSize) {
         if (!allowedSortFields.contains(sortBy)) {
             throw new BadRequestException("sortBy must be one of: " + allowedSortFields);
         }
-        if (size > MAX_PAGE_SIZE) {
-            throw new BadRequestException("size must not exceed " + MAX_PAGE_SIZE);
+        if (size > maxPageSize) {
+            throw new BadRequestException("size must not exceed " + maxPageSize);
         }
         Sort.Direction direction = "desc".equalsIgnoreCase(sortDir)
                 ? Sort.Direction.DESC
