@@ -46,7 +46,7 @@ class TopicQueryControllerTest {
                 new PageImpl<>(List.of(new FacetValueBookCountDto("Fiction", 42L)),
                         PageRequest.of(0, 20, Sort.by("value")), 1L));
 
-        mockMvc.perform(get("/api/v1/topics")
+        mockMvc.perform(get("/api/v1/topic")
                 .param("page", "0")
                 .param("size", "20")
                 .param("sortBy", "value")
@@ -67,7 +67,7 @@ class TopicQueryControllerTest {
                 new PageImpl<>(List.of(new FacetValueBookCountDto("History", 10L)),
                         PageRequest.of(0, 20, Sort.by("value")), 1L));
 
-        mockMvc.perform(get("/api/v1/topics"))
+        mockMvc.perform(get("/api/v1/topic"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.page").value(0))
                 .andExpect(jsonPath("$.size").value(20));
@@ -76,7 +76,7 @@ class TopicQueryControllerTest {
     @Test
     @DisplayName("shouldRejectUnsupportedSortField")
     void shouldRejectUnsupportedSortField() throws Exception {
-        mockMvc.perform(get("/api/v1/topics")
+        mockMvc.perform(get("/api/v1/topic")
                 .param("sortBy", "invalid"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(400))
@@ -86,7 +86,7 @@ class TopicQueryControllerTest {
     @Test
     @DisplayName("shouldRejectOversizedPageSize")
     void shouldRejectOversizedPageSize() throws Exception {
-        mockMvc.perform(get("/api/v1/topics")
+        mockMvc.perform(get("/api/v1/topic")
                 .param("size", "101"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(400))

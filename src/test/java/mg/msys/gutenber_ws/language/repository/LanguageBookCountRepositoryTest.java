@@ -5,30 +5,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 import mg.msys.gutenber_ws.language.dto.LanguageBookCountDto;
+import mg.msys.gutenber_ws.shared.repository.AbstractRepositoryTest;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.test.autoconfigure.JdbcTest;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
 
-@ActiveProfiles("test")
-@JdbcTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("LanguageBookCountRepository - Pagination and Sorting")
-class LanguageBookCountRepositoryTest {
-
-    @Container
-    @ServiceConnection
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:18.1-alpine");
+class LanguageBookCountRepositoryTest extends AbstractRepositoryTest {
 
     private LanguageBookCountRepository repository;
 

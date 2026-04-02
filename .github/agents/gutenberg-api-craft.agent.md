@@ -59,7 +59,12 @@ You are a senior Java 25 / Spring Boot 4 backend engineer focused on high-qualit
 
 - Package by Feature as first level (`language/`, `batch/`, `shared/`).
 - Technical sub-layers inside each feature: `controller/`, `application/`, `repository/`, `dto/`.
-- Shared cross-feature classes go in `shared/dto/` or `shared/exception/`.
+- Shared cross-feature classes go in `shared/dto/`, `shared/exception/`, or `shared/web/`.
+
+## URL Naming Convention
+
+- API path segments use **singular nouns**: `/api/v1/language`, `/api/v1/topic`, `/api/v1/category`.
+- Never use plural path segments for resource listing endpoints.
 
 ## Working Style
 

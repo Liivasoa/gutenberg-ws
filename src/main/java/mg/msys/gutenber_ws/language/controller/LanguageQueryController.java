@@ -2,13 +2,11 @@ package mg.msys.gutenber_ws.language.controller;
 
 import java.util.Set;
 
-import mg.msys.gutenber_ws.language.application.LanguageQueryService;
 import mg.msys.gutenber_ws.language.application.LanguageQueryUseCase;
 import mg.msys.gutenber_ws.language.dto.LanguageBookCountDto;
 import mg.msys.gutenber_ws.shared.dto.ApiError;
 import mg.msys.gutenber_ws.shared.dto.ApiPage;
-import mg.msys.gutenber_ws.shared.exception.BadRequestException;
-
+import mg.msys.gutenber_ws.shared.dto.PageRequestBuilder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -16,8 +14,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class LanguageQueryController {
 
     private static final Set<String> ALLOWED_SORT_FIELDS = Set.of("code", "bookCount");
-    private static final int MAX_PAGE_SIZE = 100;
 
     private final LanguageQueryUseCase service;
 
@@ -50,18 +45,8 @@ public class LanguageQueryController {
             @Parameter(description = "Sort field: code or bookCount", example = "code") @RequestParam(defaultValue = "code") String sortBy,
             @Parameter(description = "Sort direction: asc or desc", example = "asc") @RequestParam(defaultValue = "asc") String sortDir) {
 
-        if (!ALLOWED_SORT_FIELDS.contains(sortBy)) {
-            throw new BadRequestException("sortBy must be one of: " + ALLOWED_SORT_FIELDS);
-        }
-        if (size > MAX_PAGE_SIZE) {
-            throw new BadRequestException("size must not exceed " + MAX_PAGE_SIZE);
-        }
-
-        Sort.Direction direction = "desc".equalsIgnoreCase(sortDir)
-                ? Sort.Direction.DESC
-                : Sort.Direction.ASC;
         Page<LanguageBookCountDto> result = service.list(
-                PageRequest.of(page, size, Sort.by(direction, sortBy)));
+                PageRequestBuilder.build(page, size, sortBy, sortDir, ALLOWED_SORT_FIELDS));
         return ResponseEntity.ok(ApiPage.from(result));
     }
 
