@@ -43,7 +43,7 @@ class CategoryQueryControllerTest {
     @DisplayName("shouldReturn200WithPaginatedCategoryBookCounts")
     void shouldReturn200WithPaginatedCategoryBookCounts() throws Exception {
         when(service.list(any())).thenReturn(
-                new PageImpl<>(List.of(new FacetValueBookCountDto("Science Fiction", 15L)),
+                new PageImpl<>(List.of(new FacetValueBookCountDto(1L, "Science Fiction", 15L)),
                         PageRequest.of(0, 20, Sort.by("value")), 1L));
 
         mockMvc.perform(get("/api/v1/category")
@@ -64,7 +64,7 @@ class CategoryQueryControllerTest {
     @DisplayName("shouldUseDefaultPaginationWhenNoParamsGiven")
     void shouldUseDefaultPaginationWhenNoParamsGiven() throws Exception {
         when(service.list(any())).thenReturn(
-                new PageImpl<>(List.of(new FacetValueBookCountDto("Adventure", 5L)),
+                new PageImpl<>(List.of(new FacetValueBookCountDto(2L, "Adventure", 5L)),
                         PageRequest.of(0, 20, Sort.by("value")), 1L));
 
         mockMvc.perform(get("/api/v1/category"))

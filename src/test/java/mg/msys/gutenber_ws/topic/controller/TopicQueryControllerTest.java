@@ -43,7 +43,7 @@ class TopicQueryControllerTest {
     @DisplayName("shouldReturn200WithPaginatedTopicBookCounts")
     void shouldReturn200WithPaginatedTopicBookCounts() throws Exception {
         when(service.list(any())).thenReturn(
-                new PageImpl<>(List.of(new FacetValueBookCountDto("Fiction", 42L)),
+                new PageImpl<>(List.of(new FacetValueBookCountDto(1L, "Fiction", 42L)),
                         PageRequest.of(0, 20, Sort.by("value")), 1L));
 
         mockMvc.perform(get("/api/v1/topic")
@@ -64,7 +64,7 @@ class TopicQueryControllerTest {
     @DisplayName("shouldUseDefaultPaginationWhenNoParamsGiven")
     void shouldUseDefaultPaginationWhenNoParamsGiven() throws Exception {
         when(service.list(any())).thenReturn(
-                new PageImpl<>(List.of(new FacetValueBookCountDto("History", 10L)),
+                new PageImpl<>(List.of(new FacetValueBookCountDto(2L, "History", 10L)),
                         PageRequest.of(0, 20, Sort.by("value")), 1L));
 
         mockMvc.perform(get("/api/v1/topic"))

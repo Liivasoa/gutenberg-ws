@@ -22,7 +22,7 @@ public class FacetValueBookCountJdbcRepository implements FacetValueBookCountRep
 
     private static final String COUNT_SQL = "SELECT COUNT(*) FROM facet_value_book_count_mv WHERE facet_code = ?";
 
-    private static final String SELECT_SQL = "SELECT value, book_count FROM facet_value_book_count_mv WHERE facet_code = ?";
+    private static final String SELECT_SQL = "SELECT id, value, book_count FROM facet_value_book_count_mv WHERE facet_code = ?";
 
     private final JdbcTemplate jdbc;
 
@@ -38,7 +38,8 @@ public class FacetValueBookCountJdbcRepository implements FacetValueBookCountRep
 
         List<FacetValueBookCountDto> rows = jdbc.query(
                 sql,
-                (rs, rowNum) -> new FacetValueBookCountDto(rs.getString("value"), rs.getLong("book_count")),
+                (rs, rowNum) -> new FacetValueBookCountDto(rs.getLong("id"), rs.getString("value"),
+                        rs.getLong("book_count")),
                 facetCode,
                 pageable.getPageSize(),
                 pageable.getOffset());
