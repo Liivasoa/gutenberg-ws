@@ -30,13 +30,26 @@ class AuthorBookCountRepositoryTest extends AbstractRepositoryTest {
 
     @BeforeAll
     void seedAndRefresh() {
+        jdbcTemplate.update("DELETE FROM book_author");
+        jdbcTemplate.update("DELETE FROM book");
+        jdbcTemplate.update("DELETE FROM author");
+
         jdbcTemplate.update("INSERT INTO book (id, title) VALUES (100, 'B1') ON CONFLICT DO NOTHING");
         jdbcTemplate.update("INSERT INTO book (id, title) VALUES (101, 'B2') ON CONFLICT DO NOTHING");
         jdbcTemplate.update("INSERT INTO book (id, title) VALUES (102, 'B3') ON CONFLICT DO NOTHING");
 
-        jdbcTemplate.update("INSERT INTO author (last_name, first_names, normalized_key) VALUES ('Wilde', 'Oscar', 'wilde_oscar') ON CONFLICT DO NOTHING");
-        jdbcTemplate.update("INSERT INTO author (last_name, first_names, normalized_key) VALUES ('Austen', 'Jane', 'austen_jane') ON CONFLICT DO NOTHING");
-        jdbcTemplate.update("INSERT INTO author (last_name, first_names, normalized_key) VALUES ('Dickens', 'Charles', 'dickens_charles') ON CONFLICT DO NOTHING");
+        jdbcTemplate
+                .update("""
+                        INSERT INTO author (last_name, first_names, normalized_key) VALUES ('Wilde', 'Oscar', 'wilde_oscar') ON CONFLICT DO NOTHING
+                        """);
+        jdbcTemplate
+                .update("""
+                        INSERT INTO author (last_name, first_names, normalized_key) VALUES ('Austen', 'Jane', 'austen_jane') ON CONFLICT DO NOTHING
+                        """);
+        jdbcTemplate
+                .update("""
+                        INSERT INTO author (last_name, first_names, normalized_key) VALUES ('Dickens', 'Charles', 'dickens_charles') ON CONFLICT DO NOTHING
+                        """);
 
         // Wilde has 2 books, Austen has 1, Dickens has 0
         jdbcTemplate.update("""
