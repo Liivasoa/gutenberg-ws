@@ -27,68 +27,68 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("AuthorQueryController - HTTP contract")
 class AuthorQueryControllerTest {
 
-    private MockMvc mockMvc;
+        private MockMvc mockMvc;
 
-    @Mock
-    private AuthorQueryUseCase service;
+        @Mock
+        private AuthorQueryUseCase service;
 
-    @BeforeEach
-    void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new AuthorQueryController(service))
-                .setControllerAdvice(new GlobalExceptionHandler())
-                .build();
-    }
+        @BeforeEach
+        void setUp() {
+                mockMvc = MockMvcBuilders.standaloneSetup(new AuthorQueryController(service))
+                                .setControllerAdvice(new GlobalExceptionHandler())
+                                .build();
+        }
 
-    @Test
-    @DisplayName("shouldReturn200WithPaginatedAuthorBookCounts")
-    void shouldReturn200WithPaginatedAuthorBookCounts() throws Exception {
-        when(service.list(any())).thenReturn(
-                new PageImpl<>(List.of(new AuthorBookCountDto(1L, "Wilde", "Oscar", 42L)),
-                        PageRequest.of(0, 20, Sort.by("lastName")), 1L));
+        @Test
+        @DisplayName("shouldReturn200WithPaginatedAuthorBookCounts")
+        void shouldReturn200WithPaginatedAuthorBookCounts() throws Exception {
+                when(service.list(any())).thenReturn(
+                                new PageImpl<>(List.of(new AuthorBookCountDto(1L, "Wilde", "Oscar", 42L)),
+                                                PageRequest.of(0, 20, Sort.by("lastName")), 1L));
 
-        mockMvc.perform(get("/api/v1/author")
-                        .param("page", "0")
-                        .param("size", "20")
-                        .param("sortBy", "lastName")
-                        .param("sortDir", "asc"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content[0].lastName").value("Wilde"))
-                .andExpect(jsonPath("$.content[0].firstNames").value("Oscar"))
-                .andExpect(jsonPath("$.content[0].bookCount").value(42))
-                .andExpect(jsonPath("$.page").value(0))
-                .andExpect(jsonPath("$.size").value(20))
-                .andExpect(jsonPath("$.totalElements").value(1));
-    }
+                mockMvc.perform(get("/api/v1/author")
+                                .param("page", "0")
+                                .param("size", "20")
+                                .param("sortBy", "lastName")
+                                .param("sortDir", "asc"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.content[0].lastName").value("Wilde"))
+                                .andExpect(jsonPath("$.content[0].firstNames").value("Oscar"))
+                                .andExpect(jsonPath("$.content[0].bookCount").value(42))
+                                .andExpect(jsonPath("$.page").value(0))
+                                .andExpect(jsonPath("$.size").value(20))
+                                .andExpect(jsonPath("$.totalElements").value(1));
+        }
 
-    @Test
-    @DisplayName("shouldUseDefaultPaginationWhenNoParamsGiven")
-    void shouldUseDefaultPaginationWhenNoParamsGiven() throws Exception {
-        when(service.list(any())).thenReturn(
-                new PageImpl<>(List.of(new AuthorBookCountDto(2L, "Austen", "Jane", 12L)),
-                        PageRequest.of(0, 20, Sort.by("lastName")), 1L));
+        @Test
+        @DisplayName("shouldUseDefaultPaginationWhenNoParamsGiven")
+        void shouldUseDefaultPaginationWhenNoParamsGiven() throws Exception {
+                when(service.list(any())).thenReturn(
+                                new PageImpl<>(List.of(new AuthorBookCountDto(2L, "Austen", "Jane", 12L)),
+                                                PageRequest.of(0, 20, Sort.by("lastName")), 1L));
 
-        mockMvc.perform(get("/api/v1/author"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.page").value(0))
-                .andExpect(jsonPath("$.size").value(20));
-    }
+                mockMvc.perform(get("/api/v1/author"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.page").value(0))
+                                .andExpect(jsonPath("$.size").value(20));
+        }
 
-    @Test
-    @DisplayName("shouldRejectUnsupportedSortField")
-    void shouldRejectUnsupportedSortField() throws Exception {
-        mockMvc.perform(get("/api/v1/author")
-                        .param("sortBy", "invalid"))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.status").value(400))
-                .andExpect(jsonPath("$.message").isNotEmpty());
-    }
+        @Test
+        @DisplayName("shouldRejectUnsupportedSortField")
+        void shouldRejectUnsupportedSortField() throws Exception {
+                mockMvc.perform(get("/api/v1/author")
+                                .param("sortBy", "invalid"))
+                                .andExpect(status().isBadRequest())
+                                .andExpect(jsonPath("$.status").value(400))
+                                .andExpect(jsonPath("$.message").isNotEmpty());
+        }
 
-    @Test
-    @DisplayName("shouldRejectOversizedPageSize")
-    void shouldRejectOversizedPageSize() throws Exception {
-        mockMvc.perform(get("/api/v1/author")
-                        .param("size", "101"))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.status").value(400));
-    }
+        @Test
+        @DisplayName("shouldRejectOversizedPageSize")
+        void shouldRejectOversizedPageSize() throws Exception {
+                mockMvc.perform(get("/api/v1/author")
+                                .param("size", "101"))
+                                .andExpect(status().isBadRequest())
+                                .andExpect(jsonPath("$.status").value(400));
+        }
 }

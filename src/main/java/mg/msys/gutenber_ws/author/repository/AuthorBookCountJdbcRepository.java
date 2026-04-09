@@ -45,11 +45,13 @@ class AuthorBookCountJdbcRepository implements AuthorBookCountRepository {
     }
 
     private String buildOrderClause(Sort sort) {
-        if (sort.isUnsorted()) return " ORDER BY last_name ASC";
+        if (sort.isUnsorted())
+            return " ORDER BY last_name ASC";
         String parts = sort.stream()
                 .map(order -> {
                     String col = COLUMN_MAP.get(order.getProperty());
-                    if (col == null) throw new IllegalArgumentException("Unmapped sort field: " + order.getProperty());
+                    if (col == null)
+                        throw new IllegalArgumentException("Unmapped sort field: " + order.getProperty());
                     return col + " " + order.getDirection().name();
                 })
                 .collect(Collectors.joining(", "));
