@@ -42,6 +42,22 @@ services:
       -Dspring-boot.run.jvmArguments="
       -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.2.5
+    container_name: gutenberg-keycloak-c
+    command: start-dev --import-realm
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    ports:
+      - "8180:8080"
+    volumes:
+      - ./keycloak:/opt/keycloak/data/import
+    networks:
+      - dev-net
+    depends_on:
+      - postgres
+
   pgadmin:
     image: dpage/pgadmin4
     container_name: gutenberg-pgadmin-c
