@@ -1,0 +1,53 @@
+{
+  "realm": "gutenberg",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "roles": {
+    "realm": [
+      {
+        "name": "ADMIN",
+        "description": "Administrator role with access to batch operations"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "gutenberg-api",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "gutenberg-api-secret",
+      "serviceAccountsEnabled": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "authorizationServicesEnabled": false,
+      "redirectUris": ["*"],
+      "webOrigins": ["*"],
+      "defaultClientScopes": ["web-origins", "acr", "profile", "roles", "email"],
+      "optionalClientScopes": ["address", "phone", "offline_access", "api:read"]
+    }
+  ],
+  "clientScopes": [
+    {
+      "name": "api:read",
+      "description": "Scope for reading API resources",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true",
+        "consent.screen.text": "Read access to Gutenberg API"
+      }
+    }
+  ],
+  "users": [
+    {
+      "username": "service-account-gutenberg-api",
+      "enabled": true,
+      "serviceAccountClientId": "gutenberg-api",
+      "realmRoles": ["ADMIN"]
+    }
+  ]
+}

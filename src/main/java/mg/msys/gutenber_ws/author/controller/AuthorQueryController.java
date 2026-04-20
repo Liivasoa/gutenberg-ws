@@ -2,6 +2,7 @@ package mg.msys.gutenber_ws.author.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import mg.msys.gutenber_ws.author.application.AuthorQueryUseCase;
 import mg.msys.gutenber_ws.author.dto.AuthorBookCountDto;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Set;
 
 @Tag(name = "Authors", description = "Book count statistics per author")
+@SecurityRequirement(name = "oauth2")
 @RestController
 @RequestMapping("/api/v1/author")
 public class AuthorQueryController {
