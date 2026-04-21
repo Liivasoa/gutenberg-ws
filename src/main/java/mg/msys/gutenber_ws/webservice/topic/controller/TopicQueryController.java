@@ -6,8 +6,7 @@ import mg.msys.gutenber_ws.webservice.facet.dto.FacetValueBookCountDto;
 import mg.msys.gutenber_ws.webservice.shared.dto.ApiError;
 import mg.msys.gutenber_ws.webservice.shared.dto.ApiPage;
 import mg.msys.gutenber_ws.webservice.shared.dto.PageRequestBuilder;
-import mg.msys.gutenber_ws.webservice.topic.application.TopicQueryUseCase;
-
+import mg.msys.gutenber_ws.webservice.topic.service.TopicQueryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,9 +28,9 @@ public class TopicQueryController {
 
     private static final Set<String> ALLOWED_SORT_FIELDS = Set.of("value", "bookCount");
 
-    private final TopicQueryUseCase service;
+    private final TopicQueryService service;
 
-    public TopicQueryController(TopicQueryUseCase service) {
+    public TopicQueryController(TopicQueryService service) {
         this.service = service;
     }
 

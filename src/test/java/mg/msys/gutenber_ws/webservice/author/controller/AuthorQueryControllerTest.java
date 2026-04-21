@@ -1,7 +1,7 @@
 package mg.msys.gutenber_ws.webservice.author.controller;
 
-import mg.msys.gutenber_ws.webservice.author.application.AuthorQueryUseCase;
 import mg.msys.gutenber_ws.webservice.author.dto.AuthorBookCountDto;
+import mg.msys.gutenber_ws.webservice.author.service.AuthorQueryService;
 import mg.msys.gutenber_ws.webservice.shared.exception.GlobalExceptionHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,7 +30,7 @@ class AuthorQueryControllerTest {
         private MockMvc mockMvc;
 
         @Mock
-        private AuthorQueryUseCase service;
+        private AuthorQueryService service;
 
         @BeforeEach
         void setUp() {

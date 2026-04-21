@@ -1,4 +1,4 @@
-package mg.msys.gutenber_ws.webservice.category.application;
+package mg.msys.gutenber_ws.webservice.topic.service;
 
 import mg.msys.gutenber_ws.webservice.facet.dto.FacetValueBookCountDto;
 import mg.msys.gutenber_ws.webservice.facet.repository.FacetValueBookCountRepository;
@@ -7,16 +7,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CategoryQueryService implements CategoryQueryUseCase {
+public class TopicQueryServiceImpl implements TopicQueryService {
 
     private final FacetValueBookCountRepository repository;
 
-    public CategoryQueryService(FacetValueBookCountRepository repository) {
+    public TopicQueryServiceImpl(FacetValueBookCountRepository repository) {
         this.repository = repository;
     }
 
     @Override
     public Page<FacetValueBookCountDto> list(Pageable pageable) {
-        return repository.findAllByFacetCode("category", pageable);
+        return repository.findAllByFacetCode("topic", pageable);
     }
 }

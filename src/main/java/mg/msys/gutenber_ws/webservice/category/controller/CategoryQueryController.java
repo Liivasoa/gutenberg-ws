@@ -2,7 +2,7 @@ package mg.msys.gutenber_ws.webservice.category.controller;
 
 import java.util.Set;
 
-import mg.msys.gutenber_ws.webservice.category.application.CategoryQueryUseCase;
+import mg.msys.gutenber_ws.webservice.category.service.CategoryQueryService;
 import mg.msys.gutenber_ws.webservice.facet.dto.FacetValueBookCountDto;
 import mg.msys.gutenber_ws.webservice.shared.dto.ApiError;
 import mg.msys.gutenber_ws.webservice.shared.dto.ApiPage;
@@ -28,9 +28,9 @@ public class CategoryQueryController {
 
     private static final Set<String> ALLOWED_SORT_FIELDS = Set.of("value", "bookCount");
 
-    private final CategoryQueryUseCase service;
+    private final CategoryQueryService service;
 
-    public CategoryQueryController(CategoryQueryUseCase service) {
+    public CategoryQueryController(CategoryQueryService service) {
         this.service = service;
     }
 

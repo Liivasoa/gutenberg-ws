@@ -1,4 +1,4 @@
-package mg.msys.gutenber_ws.webservice.language.application;
+package mg.msys.gutenber_ws.webservice.language.service;
 
 import mg.msys.gutenber_ws.webservice.language.dto.LanguageBookCountDto;
 import mg.msys.gutenber_ws.webservice.language.repository.LanguageBookCountRepository;
@@ -7,11 +7,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LanguageQueryService implements LanguageQueryUseCase {
+public class LanguageQueryServiceImpl implements LanguageQueryService {
 
     private final LanguageBookCountRepository repository;
 
-    public LanguageQueryService(LanguageBookCountRepository repository) {
+    public LanguageQueryServiceImpl(LanguageBookCountRepository repository) {
         this.repository = repository;
     }
 

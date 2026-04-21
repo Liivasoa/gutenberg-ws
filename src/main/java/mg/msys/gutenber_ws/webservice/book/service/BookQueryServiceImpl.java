@@ -1,4 +1,4 @@
-package mg.msys.gutenber_ws.webservice.book.application;
+package mg.msys.gutenber_ws.webservice.book.service;
 
 import mg.msys.gutenber_ws.webservice.book.dto.BookDetailDto;
 import mg.msys.gutenber_ws.webservice.book.query.BookFilter;
@@ -8,11 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BookQueryService implements BookQueryUseCase {
+public class BookQueryServiceImpl implements BookQueryService {
 
     private final BookQueryRepository repository;
 
-    public BookQueryService(BookQueryRepository repository) {
+    public BookQueryServiceImpl(BookQueryRepository repository) {
         this.repository = repository;
     }
 

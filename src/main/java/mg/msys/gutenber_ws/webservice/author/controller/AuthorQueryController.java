@@ -3,8 +3,8 @@ package mg.msys.gutenber_ws.webservice.author.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import mg.msys.gutenber_ws.webservice.author.application.AuthorQueryUseCase;
 import mg.msys.gutenber_ws.webservice.author.dto.AuthorBookCountDto;
+import mg.msys.gutenber_ws.webservice.author.service.AuthorQueryService;
 import mg.msys.gutenber_ws.webservice.shared.dto.ApiPage;
 import mg.msys.gutenber_ws.webservice.shared.dto.PageRequestBuilder;
 import org.springframework.data.domain.Page;
@@ -23,9 +23,9 @@ public class AuthorQueryController {
 
     private static final Set<String> ALLOWED_SORT_FIELDS = Set.of("lastName", "firstNames", "bookCount");
 
-    private final AuthorQueryUseCase service;
+    private final AuthorQueryService service;
 
-    public AuthorQueryController(AuthorQueryUseCase service) {
+    public AuthorQueryController(AuthorQueryService service) {
         this.service = service;
     }
 

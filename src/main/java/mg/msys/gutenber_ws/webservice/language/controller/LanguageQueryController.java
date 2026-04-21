@@ -2,8 +2,8 @@ package mg.msys.gutenber_ws.webservice.language.controller;
 
 import java.util.Set;
 
-import mg.msys.gutenber_ws.webservice.language.application.LanguageQueryUseCase;
 import mg.msys.gutenber_ws.webservice.language.dto.LanguageBookCountDto;
+import mg.msys.gutenber_ws.webservice.language.service.LanguageQueryService;
 import mg.msys.gutenber_ws.webservice.shared.dto.ApiError;
 import mg.msys.gutenber_ws.webservice.shared.dto.ApiPage;
 import mg.msys.gutenber_ws.webservice.shared.dto.PageRequestBuilder;
@@ -28,9 +28,9 @@ public class LanguageQueryController {
 
     private static final Set<String> ALLOWED_SORT_FIELDS = Set.of("code", "bookCount");
 
-    private final LanguageQueryUseCase service;
+    private final LanguageQueryService service;
 
-    public LanguageQueryController(LanguageQueryUseCase service) {
+    public LanguageQueryController(LanguageQueryService service) {
         this.service = service;
     }
 
